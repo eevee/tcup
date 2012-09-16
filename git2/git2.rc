@@ -1,0 +1,11 @@
+#[link(name = "git2", vers = "0.0", author = "eevee")];
+#[comment = "Rust bindings for git2"];
+#[crate_type = "lib"];
+
+mod c;
+
+mod commit;
+mod index;
+mod objectid;
+mod repository;
+mod signature;
