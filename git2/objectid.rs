@@ -1,29 +1,33 @@
-use std;
+extern mod std;
 
-import c;
-import libc::types::os::arch::c95::{c_char,c_int,c_uchar,c_uint};
-import libc::types::common::c95::{c_void};
+use mod c;
+use libc::types::os::arch::c95::{c_char,c_int,c_uchar,c_uint};
+use libc::types::common::c95::{c_void};
 
 //const OBJECTID_RAW_SIZE: uint = c::GIT_OID_RAWSZ;
 //const OBJECTID_HEX_SIZE: uint = c::GIT_OID_HEXSZ;
 // TODO: minprefixlen
 
 // TODO what the fuck
-fn BLANK_OID() -> c::git_oid {
-    ret { id: (0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar), };
-}
+//pub fn BLANK_OID() -> c::git_oid {
+    //return { id: (0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar, 0 as c_uchar), };
+//}
+pub const BLANK_OID: c::git_oid = c::Struct__git_oid{ id: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] };
 
 
-class ObjectID {
-    let c_oid: *c::git_oid;
-
-    new(c_oid: *c::git_oid) {
-        self.c_oid = c_oid;
-    }
+struct ObjectID {
+    c_oid: *c::git_oid,
 
     drop {
-        //c::bindgen::git_object_free(self.c_commit as *c::git_object);
+        //c::git_object_free(self.c_commit as *c::git_object);
     }
 
     // TODO not done...
+}
+fn ObjectID(c_oid: *c::git_oid) -> ObjectID {
+    return ObjectID{ c_oid: c_oid };
+}
+
+impl ObjectID {
+    // ...
 }

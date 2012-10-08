@@ -1,38 +1,41 @@
-use std;
+extern mod std;
 
-import std::time::tm;
+use std::time::Tm;
 
-import c;
-import libc::types::os::arch::c95::{c_char,c_int,c_uint};
-import libc::types::common::c95::{c_void};
+use mod c;
+use libc::types::os::arch::c95::{c_char,c_int,c_uint};
+use libc::types::common::c95::{c_void};
 
 // TODO:
 // - git_signature_dup
 // - git_signature_now
 
-class Signature {
-    let c_sig: *c::git_signature;
-
-    new(c_sig: *c::git_signature) {
-        self.c_sig = c_sig;
-    }
-
-    // TODO accessors
+pub struct Signature {
+    c_sig: *c::git_signature,
 
     drop {
-        c::bindgen::git_signature_free(self.c_sig);
+        if self.c_sig != ptr::null() {
+            c::git_signature_free(self.c_sig);
+        }
     }
+}
+pub fn Signature(c_sig: *c::git_signature) -> Signature {
+    return Signature{ c_sig: c_sig };
+}
+
+impl Signature {
+    // TODO accessors
 }
 
 
-fn Signature_create(name: str, email: str, time: std::time::tm) -> Signature {
+pub fn Signature_create(name: &str, email: &str, time: std::time::Tm) -> Signature {
     let mut retval: c_int = 0;
     let c_sig: *c::git_signature = ptr::null();
     let spec = time.to_timespec();
 
     do str::as_c_str(name) |name_bytes| {
         do str::as_c_str(email) |email_bytes| {
-            retval = c::bindgen::git_signature_new(ptr::addr_of(c_sig), name_bytes, email_bytes, spec.sec as c::git_time_t, time.tm_gmtoff);
+            retval = c::git_signature_new(ptr::addr_of(&c_sig), name_bytes, email_bytes, spec.sec as c::git_time_t, time.tm_gmtoff);
         }
     }
 
@@ -40,5 +43,5 @@ fn Signature_create(name: str, email: str, time: std::time::tm) -> Signature {
         fail;
     }
 
-    ret Signature(c_sig);
+    return Signature(c_sig);
 }

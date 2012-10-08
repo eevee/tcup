@@ -2,10 +2,11 @@
 #[comment = "Rust bindings for git2"];
 #[crate_type = "lib"];
 
+#[legacy_exports]
 mod c;
 
-mod commit;
-mod index;
-mod objectid;
-mod repository;
-mod signature;
+pub mod commit;
+pub mod index;
+pub mod objectid;
+pub mod repository;
+pub mod signature;

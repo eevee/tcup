@@ -11,7 +11,7 @@ hood.
 
 `tcup` depends on:
 
-* The [Rust](http://www.rust-lang.org/) compiler (0.3 only)
+* The [Rust](http://www.rust-lang.org/) compiler (0.4+)
 * Some arbitrarily recent build of [libgit2](https://github.com/libgit2/libgit2)
 
 `tcup` consists of two parts: Rust bindings for `libgit2`, and the `tcup`
