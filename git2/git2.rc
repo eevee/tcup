@@ -2,8 +2,10 @@
 #[comment = "Rust bindings for git2"];
 #[crate_type = "lib"];
 
-#[legacy_exports]
-mod c;
+extern mod std;
+
+// TODO how can i make this private but still use it within the crate?
+pub mod c;
 
 pub mod commit;
 pub mod index;

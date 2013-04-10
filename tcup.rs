@@ -26,7 +26,7 @@ fn main() {
             let repo = Repository_discover(".");
             let index = repo.index();
 
-            for vec::each(vec::view(args, 2, args.len())) |filename| {
+            for vec::each(vec::slice(args, 2, args.len())) |filename| {
                 index.add(*filename);
             }
             index.write();
@@ -35,7 +35,7 @@ fn main() {
             let repo = Repository_discover(".");
             // TODO this kinda sucks and is not amenable to `git status` style output
             do repo.for_status() |path, status| {
-                io::println(#fmt("%s    (%d)", path, status as int));
+                io::println(fmt!("%s    (%d)", path, status as int));
             };
         }
         ~"commit" => {
